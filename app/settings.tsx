@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //
@@ -9,15 +9,24 @@ import { calcSize, calcFontSize } from '@/utils/sizes';
 
 export default function SettingsPage() {
   const { setTheme, currentTheme, theme } = useTheme();
+  const [localTheme, setLocalTheme] = useState(currentTheme);
   const styles = useMemo(() => myStyles(theme), [theme]);
 
-  const handleThemeChange = (themeName: ThemeName) => {
-    setTheme(themeName);
+  useEffect(() => {
+    setLocalTheme(currentTheme);
+  }, []);
+
+  const saveThemeChange = () => {
+    setTheme(localTheme);
   };
+
+  const handleLocalTheme = (theme: ThemeName) => {
+    setLocalTheme(theme);
+  }
 
   const renderThemePreview = (item: ThemeName) => {
     const theme = themes[item];
-    const isSelected = currentTheme === item;
+    const isSelected = localTheme == item;    
 
     return (
       <TouchableOpacity
@@ -26,7 +35,7 @@ export default function SettingsPage() {
           { backgroundColor: theme.background },
           isSelected && styles.selectedTheme,
         ]}
-        onPress={() => handleThemeChange(item)}
+        onPress={() => handleLocalTheme(item)}
         key={item.toString()}
       >
         <View style={[styles.colorBlock, { backgroundColor: theme.primary }]} />
@@ -42,7 +51,7 @@ export default function SettingsPage() {
       <View style={styles.themeList}>
         {Object.keys(themes).map((item) => renderThemePreview(item))}
       </View>
-      <TouchableOpacity style={styles.saveButton}>
+      <TouchableOpacity style={styles.saveButton} onPress={saveThemeChange}>
         <Text style={styles.saveText}>Save</Text>
       </TouchableOpacity>
     </SafeAreaView>
