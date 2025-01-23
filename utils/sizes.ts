@@ -14,18 +14,31 @@ const scaleHeight = deviceHeight / baseHeight;
 const fontScale = Math.min(scaleWidth, scaleHeight);
 
 const heightPixelRatio = (amount: number) =>
-  PixelRatio.roundToNearestPixel(deviceHeight * amount);
+	PixelRatio.roundToNearestPixel(deviceHeight * amount);
 const widthPixelRatio = (amount: number) =>
-  PixelRatio.roundToNearestPixel(deviceWidth * amount);
+	PixelRatio.roundToNearestPixel(deviceWidth * amount);
 
-const convertHeightPixelsToPercent = (heightInPx: number) => heightInPx / baseHeight;
-const convertWidthPixelsToPercent = (widthInPx: number) => widthInPx / baseWidth;
+const convertHeightPixelsToPercent = (heightInPx: number) =>
+	heightInPx / baseHeight;
+const convertWidthPixelsToPercent = (widthInPx: number) =>
+	widthInPx / baseWidth;
 
 export const calcHeight = (px: number) => {
-  return heightPixelRatio(convertHeightPixelsToPercent(px));
+	return heightPixelRatio(convertHeightPixelsToPercent(px));
 };
-export const calcWidth = (px: number) => widthPixelRatio(convertWidthPixelsToPercent(px));
+export const calcWidth = (px: number) =>
+	widthPixelRatio(convertWidthPixelsToPercent(px));
 export const calcSize = (px: number) =>
-  deviceWidth < deviceHeight ? calcWidth(px) : calcHeight(px);
+	deviceWidth < deviceHeight ? calcWidth(px) : calcHeight(px);
+
+export const moderateScale = (px: number, factor: number = 0.5) => {
+	const scaledSize = calcWidth(px);
+	return px + (scaledSize - px) * factor;
+};
+
+export const moderateVerticalScale = (px: number, factor: number = 0.5) => {
+	const scaledSize = calcHeight(px);
+	return px + (scaledSize - px) * factor;
+};
 
 export const calcFontSize = (size: number) => size * fontScale;
