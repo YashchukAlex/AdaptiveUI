@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {TextInput, StyleSheet, View, ViewStyle} from 'react-native';
+import {TextInput, StyleSheet, View, ViewStyle, Platform} from 'react-native';
 //
 import {useTheme} from '../context/ThemeContext';
 import {Theme} from '@/constants/themes';
@@ -49,13 +49,14 @@ const myStyles = (theme: Theme) =>
 			flex: 1,
 		},
 		input: {
-			height: ms(40),
 			backgroundColor: theme.background,
-			borderRadius: s(8),
+			borderRadius: ms(8),
 			borderColor: theme.primary,
-			paddingHorizontal: s(12),
+			paddingHorizontal: ms(12),
+			paddingVertical: ms(10),
 			color: theme.text,
 			borderWidth: ms(2),
 			fontSize: fs(16),
+			textAlignVertical: 'center',
 		},
 	});

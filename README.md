@@ -1,3 +1,5 @@
+Application offers an adaptive UI optimized for both phones and tablets, ensuring a seamless experience across all devices. It features a dynamic list with sorting and filtering options, making it easy to organize and focus on relevant data. The setup page allows you to choose and save your preferred color theme, personalizing the app to suit your style.
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
