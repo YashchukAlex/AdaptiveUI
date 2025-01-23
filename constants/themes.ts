@@ -26,6 +26,33 @@ export const themes = {
 		text: '#4A3C78', // Subdued Deep Purple
 		brand: '#db424f', // Red
 	},
+	4: {
+		key: 4,
+		name: 'Fresh Earth',
+		background: '#F9FBE7', // Pale Lime (light, earthy tone)
+		primary: '#C5E1A5', // Soft Green (fresh and natural)
+		secondary: '#8BC34A', // Vibrant Green (contrasting accent)
+		text: '#33691E', // Dark Olive
+		brand: '#FFFFFF', // Red
+	},
+	5: {
+		key: 5,
+		name: 'Sunset Glow',
+		background: '#FFF0E6', // Soft Peach (light and warm)
+		primary: '#FF8A65', // Muted Coral (vibrant and warm)
+		secondary: '#F4511E', // Deep Orange (bold accent)
+		text: '#4E342E', // Warm Brown
+		brand: '#FFF0E6', // Blue
+	},
+	6: {
+		key: 6,
+		name: 'Midnight Dream',
+		background: '#212121', // Dark Grey (moody and elegant)
+		primary: '#536DFE', // Indigo Blue (cool and vibrant)
+		secondary: '#448AFF', // Light Blue (soft accent)
+		text: '#FFFFFF', // White (high contrast and readable)
+		brand: '#212121', // Dark Grey
+	},
 };
 
 export type Theme = (typeof themes)['1'];

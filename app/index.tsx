@@ -16,9 +16,11 @@ import {SearchBar} from '../components/SearchBar';
 import {FilterDropdown} from '../components/FilterDropdown';
 import {useTheme} from '../context/ThemeContext';
 import {Theme} from '@/constants/themes';
-import {calcSize, calcFontSize} from '@/utils/sizes';
+import {s, fs, ms} from '@/utils/sizes';
 //
 import Logo from '@/assets/images/react-logo.png';
+
+const filterOptions = {1: 'All', 2: 'Tracked by AI', 3: 'Not Tracked by AI'};
 
 const DATA = [
 	{id: '1', name: 'Dumbbell Bench Press', rm: 100, trackedByAI: true},
@@ -33,7 +35,7 @@ const DATA = [
 
 export default function MainPage() {
 	const [searchText, setSearchText] = useState('');
-	const [selectedFilter, setSelectedFilter] = useState('All');
+	const [selectedFilter, setSelectedFilter] = useState(1);
 	const {theme} = useTheme();
 	const styles = useMemo(() => myStyles(theme), [theme]);
 	const router = useRouter();
@@ -43,11 +45,9 @@ export default function MainPage() {
 			.toLowerCase()
 			.includes(searchText.toLowerCase());
 
-		if (selectedFilter === 'All') return matchesSearch;
-		if (selectedFilter === 'Tracked by AI')
-			return matchesSearch && item.trackedByAI;
-		if (selectedFilter === 'Not Tracked by AI')
-			return matchesSearch && !item.trackedByAI;
+		if (selectedFilter == 1) return matchesSearch;
+		if (selectedFilter == 2) return matchesSearch && item.trackedByAI;
+		if (selectedFilter == 3) return matchesSearch && !item.trackedByAI;
 
 		return matchesSearch;
 	});
@@ -63,16 +63,14 @@ export default function MainPage() {
 				<View style={styles.cardDesc}>
 					<Text style={styles.cardSubtitle}>1RM: {item.rm} kg</Text>
 					{item.trackedByAI && (
-						<View style={styles.trackedByAIContainer}>
-							<Text style={styles.trackedByAIText}>Tracked by AI</Text>
-						</View>
+						<Text style={styles.trackedByAIText}>Tracked by AI</Text>
 					)}
 				</View>
 			</View>
 			<TouchableOpacity style={styles.addButton}>
 				<AntIcons
 					name='plus'
-					size={calcSize(20)}
+					size={ms(20)}
 					color={theme.primary}
 				/>
 			</TouchableOpacity>
@@ -89,7 +87,7 @@ export default function MainPage() {
 				>
 					<Icons
 						name='settings'
-						size={calcSize(30)}
+						size={ms(30)}
 						color={theme.primary}
 					/>
 				</TouchableOpacity>
@@ -103,7 +101,7 @@ export default function MainPage() {
 					containerStyle={{marginRight: 20}}
 				/>
 				<FilterDropdown
-					options={['All', 'Tracked by AI', 'Not Tracked by AI']}
+					options={filterOptions}
 					selectedOption={selectedFilter}
 					onSelectOption={setSelectedFilter}
 				/>
@@ -113,7 +111,7 @@ export default function MainPage() {
 				data={filteredData}
 				renderItem={renderItem}
 				keyExtractor={item => item.id}
-				style={{marginVertical: calcSize(10)}}
+				style={{marginVertical: s(10)}}
 				contentContainerStyle={styles.listContent}
 				showsVerticalScrollIndicator={false}
 				ListEmptyComponent={<Text style={styles.headerTitle}>No results</Text>}
@@ -132,54 +130,59 @@ const myStyles = (theme: Theme) =>
 			flexDirection: 'row',
 			justifyContent: 'space-between',
 			alignItems: 'center',
-			paddingHorizontal: calcSize(16),
-			paddingVertical: calcSize(10),
+			paddingHorizontal: s(16),
+			paddingVertical: s(10),
 			backgroundColor: theme.background,
 		},
 		headerTitle: {
-			fontSize: calcFontSize(30),
+			fontSize: fs(30),
 			fontWeight: 'bold',
 			color: theme.text,
 		},
 		userText: {
-			fontSize: calcFontSize(14),
+			fontSize: fs(14),
 			color: theme.text,
 		},
 		searchSection: {
 			flexDirection: 'row',
 			alignItems: 'center',
-			paddingHorizontal: calcSize(16),
-			paddingBottom: calcSize(10),
+			paddingHorizontal: s(16),
+			paddingBottom: s(10),
 			backgroundColor: theme.background,
 		},
 		listContent: {
-			paddingHorizontal: calcSize(16),
+			paddingHorizontal: s(16),
 		},
 		card: {
 			flexDirection: 'row',
 			alignItems: 'center',
 			backgroundColor: theme.secondary,
-			borderRadius: calcSize(12),
-			marginBottom: calcSize(12),
-			padding: calcSize(12),
+			borderRadius: s(12),
+			marginBottom: ms(20),
+			padding: ms(12),
+			elevation: 5,
+			shadowColor: '#000',
+			shadowOffset: {width: 0, height: 3},
+			shadowOpacity: 0.15,
+			shadowRadius: 5,
 		},
 		cardImage: {
-			width: calcSize(60),
-			height: calcSize(60),
-			borderRadius: calcSize(8),
+			width: ms(60),
+			height: ms(60),
+			borderRadius: s(8),
 		},
 		cardContent: {
 			flex: 1,
-			marginHorizontal: calcSize(12),
+			marginHorizontal: s(12),
 		},
 		cardTitle: {
-			fontSize: calcFontSize(16),
+			fontSize: fs(16),
 			fontWeight: 'bold',
 			color: theme.text,
-			marginTop: calcSize(10),
+			marginTop: ms(10),
 		},
 		cardSubtitle: {
-			fontSize: calcFontSize(14),
+			fontSize: fs(14),
 			color: theme.text,
 		},
 		cardDesc: {
@@ -188,22 +191,16 @@ const myStyles = (theme: Theme) =>
 			alignItems: 'center',
 			justifyContent: 'space-between',
 		},
-		trackedByAIContainer: {
-			marginTop: 4,
-			borderRadius: 4,
-			paddingHorizontal: 6,
-			paddingVertical: 2,
-		},
 		trackedByAIText: {
-			fontSize: calcFontSize(10),
+			fontSize: fs(10),
 			color: theme.brand,
 			fontWeight: '500',
 			fontStyle: 'italic',
 		},
 		addButton: {
-			width: calcSize(35),
-			height: calcSize(35),
-			borderRadius: calcSize(20),
+			width: ms(35),
+			height: ms(35),
+			borderRadius: s(20),
 			backgroundColor: '#fff',
 			justifyContent: 'center',
 			alignItems: 'center',

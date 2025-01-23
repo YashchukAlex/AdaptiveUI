@@ -23,22 +23,26 @@ const convertHeightPixelsToPercent = (heightInPx: number) =>
 const convertWidthPixelsToPercent = (widthInPx: number) =>
 	widthInPx / baseWidth;
 
-export const calcHeight = (px: number) => {
+//scaleWidth
+export const s = (px: number) =>
+	widthPixelRatio(convertWidthPixelsToPercent(px));
+
+//scaleWidth
+export const sv = (px: number) => {
 	return heightPixelRatio(convertHeightPixelsToPercent(px));
 };
-export const calcWidth = (px: number) =>
-	widthPixelRatio(convertWidthPixelsToPercent(px));
-export const calcSize = (px: number) =>
-	deviceWidth < deviceHeight ? calcWidth(px) : calcHeight(px);
 
-export const moderateScale = (px: number, factor: number = 0.5) => {
-	const scaledSize = calcWidth(px);
+//moderateScale
+export const ms = (px: number, factor: number = 0.5) => {
+	const scaledSize = s(px);
 	return px + (scaledSize - px) * factor;
 };
 
-export const moderateVerticalScale = (px: number, factor: number = 0.5) => {
-	const scaledSize = calcHeight(px);
+//moderateVerticalScale
+export const mvs = (px: number, factor: number = 0.5) => {
+	const scaledSize = sv(px);
 	return px + (scaledSize - px) * factor;
 };
 
-export const calcFontSize = (size: number) => size * fontScale;
+//calcFontSize
+export const fs = (size: number) => size * fontScale;

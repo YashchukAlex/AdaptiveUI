@@ -1,16 +1,24 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	FlatList,
+	ScrollView,
+} from 'react-native';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 //
 import {useTheme} from '@/context/ThemeContext';
 import {themes, ThemeName, Theme} from '@/constants/themes';
-import {calcSize, calcFontSize} from '@/utils/sizes';
+import {s, fs, ms, mvs} from '@/utils/sizes';
 //
 
 export default function SettingsPage() {
 	const {setTheme, currentTheme, theme} = useTheme();
 	const [localTheme, setLocalTheme] = useState(currentTheme);
 	const styles = useMemo(() => myStyles(theme), [theme]);
+	const {bottom} = useSafeAreaInsets();
 
 	useEffect(() => {
 		setLocalTheme(currentTheme);
@@ -46,18 +54,21 @@ export default function SettingsPage() {
 	};
 
 	return (
-		<SafeAreaView style={styles.container}>
+		<View style={[styles.container, {paddingBottom: bottom + ms(16)}]}>
 			<Text style={styles.title}>Choose Your Theme</Text>
-			<View style={styles.themeList}>
-				{Object.keys(themes).map(item => renderThemePreview(item))}
-			</View>
+			<ScrollView
+				contentContainerStyle={styles.themeList}
+				showsVerticalScrollIndicator={false}
+			>
+				{Object.keys(themes).map(el => renderThemePreview(el))}
+			</ScrollView>
 			<TouchableOpacity
 				style={styles.saveButton}
 				onPress={saveThemeChange}
 			>
 				<Text style={styles.saveText}>Save</Text>
 			</TouchableOpacity>
-		</SafeAreaView>
+		</View>
 	);
 }
 
@@ -65,25 +76,30 @@ const myStyles = (theme: Theme) =>
 	StyleSheet.create({
 		container: {
 			flex: 1,
-			padding: calcSize(16),
+			padding: ms(16),
 			alignItems: 'center',
 			backgroundColor: theme.background,
+			justifyContent: 'space-between',
 		},
 		title: {
-			fontSize: calcFontSize(20),
+			fontSize: fs(20),
 			fontWeight: 'bold',
-			marginBottom: calcSize(16),
+			marginBottom: s(16),
 			color: theme.text,
 		},
 		themeList: {
-			flex: 1,
+			flexGrow: 1,
+			flexDirection: 'row',
+			flexWrap: 'wrap',
+			justifyContent: 'center',
 		},
 		themePreview: {
-			width: calcSize(200),
-			height: calcSize(100),
-			marginVertical: calcSize(10),
-			borderRadius: calcSize(10),
-			padding: calcSize(10),
+			width: ms(220),
+			height: ms(130),
+			marginVertical: ms(10),
+			marginHorizontal: ms(10),
+			borderRadius: s(10),
+			padding: ms(10),
 			justifyContent: 'space-between',
 			alignItems: 'center',
 			elevation: 5,
@@ -94,29 +110,31 @@ const myStyles = (theme: Theme) =>
 		},
 		colorBlock: {
 			width: '90%',
-			height: calcSize(20),
+			height: ms(20),
 			marginVertical: 4,
 			borderRadius: 5,
 		},
 		themeText: {
-			fontSize: calcFontSize(14),
+			fontSize: fs(14),
 			fontWeight: 'bold',
 			marginTop: 5,
 		},
 		selectedTheme: {
 			borderWidth: 2,
-			borderColor: theme.brand,
+			borderColor: '#db424f',
 		},
 		saveButton: {
 			backgroundColor: theme.primary,
-			borderRadius: calcSize(20),
-			height: calcSize(50),
+			borderRadius: s(20),
+			height: ms(50),
 			width: '100%',
+			maxWidth: ms(400),
 			alignItems: 'center',
 			justifyContent: 'center',
+			marginTop: mvs(20),
 		},
 		saveText: {
-			fontSize: calcFontSize(24),
+			fontSize: fs(24),
 			color: theme.text,
 			fontWeight: '600',
 		},
