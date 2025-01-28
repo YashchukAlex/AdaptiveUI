@@ -1,7 +1,7 @@
 {
 	"expo": {
 		"name": "AdaptiveUI",
-		"slug": "AdaptiveUI",
+		"slug": "adaptive-ui",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/images/icon.png",
@@ -9,13 +9,18 @@
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
 		"ios": {
-			"supportsTablet": true
+			"supportsTablet": true,
+			"bundleIdentifier": "com.oleksiiyashchuk.adaptiveUI",
+			"buildNumber": "1.0.0"
 		},
 		"android": {
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/images/adaptive-icon.png",
-				"backgroundColor": "#ffffff"
-			}
+				"foregroundImage": "./assets/images/icon.png",
+				"backgroundColor": "#7687a3"
+			},
+			"package": "com.oleksiiyashchuk.adaptiveUI",
+			"versionCode": 1,
+			"permissions": []
 		},
 		"platforms": ["ios", "android"],
 		"plugins": [
@@ -23,15 +28,23 @@
 			[
 				"expo-splash-screen",
 				{
-					"image": "./assets/images/splash-icon.png",
+					"image": "./assets/images/icon.png",
 					"imageWidth": 200,
 					"resizeMode": "contain",
-					"backgroundColor": "#ffffff"
+					"backgroundColor": "#7687a3"
 				}
 			]
 		],
 		"experiments": {
 			"typedRoutes": true
+		},
+		"extra": {
+			"router": {
+				"origin": false
+			},
+			"eas": {
+				"projectId": "45fa1915-3725-4365-b601-d5ea912d4e41"
+			}
 		}
 	}
 }
